@@ -1,3 +1,4 @@
+# Coded by Cyb3rEagle
 import socket
 import whois
 import nmap
