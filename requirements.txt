@@ -1,0 +1,4 @@
+whois
+nmap
+requests
+beautifulsoup4
