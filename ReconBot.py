@@ -1,16 +1,32 @@
 import socket
 import whois
+import nmap
+import requests
+from bs4 import BeautifulSoup
+
 def whois_lookup(target):
     try:
         w = whois.whois(target)
         print(f"Registrar: {w.registrar}")
         print(f"Registration Date: {w.creation_date}")
         print(f"Expiration Date: {w.expiration_date}")
+        print(f"Nameservers: {w.name_servers}")
+        print(f"Contact Email: {w.emails}")
+        print(f"Domain Status: {w.status}")
     except Exception as e:
         print(f"Error: {e}")
-import nmap
-import requests
-from bs4 import BeautifulSoup
+
+def port_scan(target):
+    try:
+        nm = nmap.PortScanner()
+        nm.scan(target, arguments='-sS -p 1-65535 -T4')
+        for host in nm.all_hosts():
+            print(f"Open Ports for {host}:")
+            for port in nm[host]['tcp'].keys():
+                print(f"  Port {port}: {nm[host]['tcp'][port]['name']} - {nm[host]['tcp'][port]['state']}")
+    except Exception as e:
+        print(f"Error: {e}")
+
 def dns_enum(target):
     try:
         ip = socket.gethostbyname(target)
@@ -19,25 +35,9 @@ def dns_enum(target):
         print(f"IP Address: {ip}")
         print(f"MX Records: {mx_records}")
         print(f"NS Records: {ns_records}")
+        # Additional DNS record types can be retrieved here
     except socket.gaierror:
         print("Unable to resolve target")
-
-def whois_lookup(target):
-    try:
-        w = whois.whois(target)
-        print(f"Registrar: {w.registrar}")
-        print(f"Registration Date: {w.creation_date}")
-        print(f"Expiration Date: {w.expiration_date}")
-    except Exception as e:
-        print(f"Error: {e}")
-
-def port_scan(target):
-    try:
-        nm = nmap.PortScanner()
-        nm.scan(target, arguments='-p 1-1024')
-        print(f"Open Ports: {nm[target]['tcp'].keys()}")
-    except Exception as e:
-        print(f"Error: {e}")
 
 def web_enum(target):
     try:
@@ -45,6 +45,7 @@ def web_enum(target):
         soup = BeautifulSoup(r.text, 'html.parser')
         print(f"Website Title: {soup.title.string}")
         print(f"Website Headers: {r.headers}")
+        # Additional web enumeration tasks can be performed here
     except Exception as e:
         print(f"Error: {e}")
 
