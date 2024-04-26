@@ -1,9 +1,16 @@
 import socket
 import whois
+def whois_lookup(target):
+    try:
+        w = whois.whois(target)
+        print(f"Registrar: {w.registrar}")
+        print(f"Registration Date: {w.creation_date}")
+        print(f"Expiration Date: {w.expiration_date}")
+    except Exception as e:
+        print(f"Error: {e}")
 import nmap
 import requests
 from bs4 import BeautifulSoup
-
 def dns_enum(target):
     try:
         ip = socket.gethostbyname(target)
