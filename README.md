@@ -1,2 +1,8 @@
 # ReconBot
-This tool performs a DNS lookup on the target domain or IP address and retrieves the IP address, MX records, and NS records. You can expand on this code to include the other features mentioned above and create a comprehensive information gathering tool.
+# InfoGather
+
+InfoGather is a simple information gathering tool written in Python. It performs DNS enumeration, whois lookups, port scanning, and web enumeration to gather information about a target system.
+
+## Installation
+
+To install InfoGather, clone the repository and run the following command:
